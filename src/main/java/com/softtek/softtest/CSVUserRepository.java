@@ -10,7 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
+/**
+ *
+ * */
 public class CSVUserRepository implements UserRepository {
     private static final String USERS_FILE_PATH = "registered_users.csv";
     private final CSVReader csvReader;
@@ -34,6 +38,10 @@ public class CSVUserRepository implements UserRepository {
 
     @Override
     public List<? extends User> findAll() {
+        return getUsers();
+    }
+
+    private List<? extends User> getUsers() {
         return builder
                 .withType(CSVUser.class)
                 .withIgnoreLeadingWhiteSpace(true)
@@ -41,4 +49,13 @@ public class CSVUserRepository implements UserRepository {
                 .stream()
                 .toList();
     }
+
+    @Override
+    public User getRandomUser() {
+        var users = getUsers();
+        final var random = new Random();
+        return users.get(random.nextInt(users.size()));
+    }
+
+
 }

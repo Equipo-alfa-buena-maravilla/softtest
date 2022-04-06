@@ -3,6 +3,10 @@ package com.softtek.softtest.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 public class ContactPage extends AbstractPage {
 
@@ -28,7 +32,7 @@ public class ContactPage extends AbstractPage {
     }
 
     public ContactPage withName(String name) {
-        contactNameInput.sendKeys(name);
+        wait.until(visibilityOf(contactNameInput)).sendKeys(name);
         return this;
     }
     public ContactPage withSubject(String subject) {
@@ -36,9 +40,15 @@ public class ContactPage extends AbstractPage {
         return this;
     }
 
-    public HomePage submit() {
+    public ContactPage submit() {
         submitBtn.click();
-        return new HomePage(driver);
+        return this;
+    }
+
+    public String getSuccessMessage() {
+        return wait
+                .until(alertIsPresent())
+                .getText();
     }
 
 
