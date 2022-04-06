@@ -13,7 +13,6 @@ import java.util.Objects;
 
 public class CSVUserRepository implements UserRepository {
     private static final String USERS_FILE_PATH = "registered_users.csv";
-    private final Reader reader;
     private final CSVReader csvReader;
     private CsvToBeanBuilder<CSVUser> builder;
 
@@ -22,7 +21,7 @@ public class CSVUserRepository implements UserRepository {
         try {
             var resource = getClass().getClassLoader().getResource(USERS_FILE_PATH);
             Objects.requireNonNull(resource);
-            this.reader = Files.newBufferedReader(Paths.get(resource.toURI()));
+            var reader = Files.newBufferedReader(Paths.get(resource.toURI()));
             this.builder = new CsvToBeanBuilder<>(reader);
 //            Skip line avoids serializing the header
             this.csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
@@ -35,11 +34,11 @@ public class CSVUserRepository implements UserRepository {
 
     @Override
     public List<? extends User> findAll() {
-        var csvToBean = builder
+        return builder
                 .withType(CSVUser.class)
                 .withIgnoreLeadingWhiteSpace(true)
-                .build();
-
-        return csvToBean.stream().toList();
+                .build()
+                .stream()
+                .toList();
     }
 }
