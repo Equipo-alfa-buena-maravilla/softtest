@@ -7,11 +7,11 @@ import java.util.Random;
 
 import static org.testng.Assert.*;
 
-public class SignupTest  extends Hook {
+public class SignupTest extends Hook {
 
-/*
-* When a user clicks on
-* */
+    /*
+     * When a user clicks on
+     * */
 //    Poner que hace en la prueba, comentario con id en la test matrix
     @Test
     public void signupTest() {
@@ -37,6 +37,7 @@ public class SignupTest  extends Hook {
     public void testLogin() {
         final var rand = new Random();
         var users = userRepository.findAll();
+        System.out.println(users);
         var randomIndex = rand.nextInt(users.size());
         var randomUser = users.get(randomIndex);
         var expected = "Welcome " + randomUser.getUsername();
@@ -46,7 +47,6 @@ public class SignupTest  extends Hook {
                 .withPassword(randomUser.getPassword())
                 .submit()
                 .getWelcomeMessage();
-        assertEquals(expected, result);
-
+        assertEquals(result, expected);
     }
 }
