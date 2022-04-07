@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
+
 public class ProductPage extends AbstractPage {
 
     @FindBy(xpath = "//a[text() = 'Add to cart']")
@@ -17,7 +19,7 @@ public class ProductPage extends AbstractPage {
     }
 
     public ProductPage addToCart() {
-        addToCartBtn.click();
+        wait.until(elementToBeClickable(addToCartBtn)).click();
         return this;
     }
 

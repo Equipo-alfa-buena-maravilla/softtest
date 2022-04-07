@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 public class PlaceOrderPage extends AbstractPage {
 
     @FindBy(id = "name")
@@ -35,7 +37,7 @@ public class PlaceOrderPage extends AbstractPage {
     }
 
     public PlaceOrderPage withName(String name) {
-        nameInput.sendKeys(name);
+        wait.until(visibilityOf(nameInput)).sendKeys(name);
         return this;
     }
 

@@ -1,9 +1,6 @@
 package com.softtek.softtest.pages;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
@@ -58,7 +55,7 @@ public class HomePage extends AbstractPage {
 
         switch (catalog) {
             case "phones":
-                wait.until(elementToBeClickable(driver.findElement(By.xpath("//a[text() = 'Phones']")))).click();
+                retryingFindClick();
                 return new PhonesCatalogPage(driver);
             case "laptops":
 
@@ -66,6 +63,18 @@ public class HomePage extends AbstractPage {
             default:
                 throw new UnsupportedOperationException("fuck off");
         }
-
+    }
+    private void retryingFindClick() {
+        boolean result = false;
+        int attempts = 0;
+        while(attempts < 2) {
+            try {
+                phonesCatalogLink.click();
+                result = true;
+                break;
+            } catch(StaleElementReferenceException e) {
+            }
+            attempts++;
+        }
     }
 }

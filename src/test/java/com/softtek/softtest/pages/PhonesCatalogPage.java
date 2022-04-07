@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
+
 public class PhonesCatalogPage extends AbstractCatalogPage {
 
     @FindBy(xpath = "//h4/a[text() = 'Samsung galaxy s6']")
@@ -16,7 +18,7 @@ public class PhonesCatalogPage extends AbstractCatalogPage {
     public ProductPage selectProduct(String product) {
         switch (product) {
             case "samsungGalaxy":
-                samsungGalaxyLink.click();
+                wait.until(elementToBeClickable(samsungGalaxyLink)).click();
                 return new ProductPage(driver);
             case "nokiaLumia":
                 nokiaLumiaLink.click();
