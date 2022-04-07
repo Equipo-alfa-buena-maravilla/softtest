@@ -29,15 +29,19 @@ public class SignupTest extends Hook {
         assertEquals(successMessage, successfulSignupMessage);
     }
 
+    /**
+     * When attempting to get users from a datasource there is at least 1 user fetched.
+     * */
     @Test
     public void testRepo() {
         var users = userRepository.findAll();
         assertFalse(users.isEmpty());
     }
 /**
-* Given valid username and password matching data, when the user clicks on "Log in" a login form should
-* be displayed, then the user is required to insert its username and password, finally clicking
-* on "Log in" displays the home page containing the logged-in username displayed.
+* Given valid username and password matching data, when the user clicks on "Log in"
+ * a login form should be displayed, then the user is required to insert its username
+ * and password. Finally, clicking on "Log in" displays the home page containing
+ * the logged-in username displayed.
 * */
     @Test
     public void testLogin() {
