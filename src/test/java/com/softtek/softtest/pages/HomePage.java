@@ -1,5 +1,6 @@
 package com.softtek.softtest.pages;
 
+import com.softtek.softtest.core.Catalog;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
@@ -21,6 +22,9 @@ public class HomePage extends AbstractPage {
 
     @FindBy(xpath = "//a[text() = 'Phones']")
     private WebElement phonesCatalogLink;
+
+    @FindBy(xpath = "//a[text() = 'Laptops']")
+    private WebElement laptopsCatalogLink;
 
 
     public HomePage(WebDriver driver) {
@@ -51,18 +55,18 @@ public class HomePage extends AbstractPage {
         return wait.until(visibilityOf(usernameSpan)).getText();
     }
 
-    public AbstractCatalogPage selectCatalog(String catalog) {
-
-        switch (catalog) {
-            case "phones":
+    public AbstractCatalogPage selectCatalog(Catalog catalog) {
+        return switch (catalog) {
+            case PHONES -> {
                 retryingFindClick();
-                return new PhonesCatalogPage(driver);
-            case "laptops":
-
-                return new LaptopsCatalogPage(driver);
-            default:
-                throw new UnsupportedOperationException("fuck off");
-        }
+                yield new PhonesCatalogPage(driver);
+            }
+            case LAPTOPS -> {
+                laptopsCatalogLink.click();
+                yield new LaptopsCatalogPage(driver);
+            }
+            default -> throw new UnsupportedOperationException("fuck off");
+        };
     }
     private void retryingFindClick() {
         boolean result = false;
